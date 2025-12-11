@@ -3,14 +3,15 @@ import { useEffect, useState } from "react";
 interface User
 {
     id: number;
+    username: string;
     name: string;
 }
-
 
 const UsersList = () =>
 {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState("");
 
     useEffect(() =>
     {
@@ -18,26 +19,44 @@ const UsersList = () =>
         {
             // Simulate network delay (5 seconds)
             await new Promise((resolve) => setTimeout(resolve, 5000));
+
             const response = await fetch("https://jsonplaceholder.typicode.com/users");
             const data = await response.json();
 
-            setUsers(data);      // Update state
-            setLoading(false);   // Trigger re-render
+            setUsers(data);
+            setLoading(false);
         };
 
-        fetchUsers();          // Side effect runs once on mount
-    }, []);                  // Empty dependency array = run only once
+        fetchUsers();
+    }, []);
 
-    if (loading) return <p>Loading...</p>;
+    // Filter by username dynamically
+    const filteredUsers = users.filter((u) =>
+        u.username.toLowerCase().includes(search.toLowerCase())
+    );
+
+    if (loading) return <p>Loading... (5s delay)</p>;
 
     return (
-        <ul>
-            {users.map((u) => (
-                <ul>
-                    <li key={u.id}>{u.id}. {u.name}</li>
-                </ul>
-            ))}
-        </ul>
+        <div>
+            <input
+                type="text"
+                placeholder="Search by username..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{ marginBottom: "12px", padding: "6px" }}
+            />
+
+            <ul>
+                {filteredUsers.map((u) => (
+                    <li key={u.id}>
+                        {u.username} – {u.name}
+                    </li>
+                ))}
+            </ul>
+
+            {filteredUsers.length === 0 && <p>No matching users.</p>}
+        </div>
     );
 };
 
