@@ -6,57 +6,57 @@ import reactHooks from "eslint-plugin-react-hooks";
 import prettier from "eslint-config-prettier";
 
 export default [
-    {
-        files: ["**/*.{ts,tsx}"],
+  {
+    files: ["**/*.{ts,tsx}"],
 
-        languageOptions: {
-            parser: tsParser,
-            ecmaVersion: "latest",
-            sourceType: "module",
-            globals: {
-                // Browser globals
-                window: "readonly",
-                document: "readonly",
-                console: "readonly",
-                navigator: "readonly",
-                fetch: "readonly"
-            }
-        },
+    languageOptions: {
+      parser: tsParser,
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        // Browser globals
+        window: "readonly",
+        document: "readonly",
+        console: "readonly",
+        navigator: "readonly",
+        fetch: "readonly",
+      },
+    },
 
-        settings: {
-            react: {
-                version: "detect"
-            }
-        },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
 
-        plugins: {
-            "@typescript-eslint": tsPlugin,
-            react: reactPlugin,
-            "react-hooks": reactHooks
-        },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+      react: reactPlugin,
+      "react-hooks": reactHooks,
+    },
 
-        rules: {
-            // Base JS rules
-            ...js.configs.recommended.rules,
+    rules: {
+      // Base JS rules
+      ...js.configs.recommended.rules,
 
-            // TypeScript rules
-            ...tsPlugin.configs.recommended.rules,
+      // TypeScript rules
+      ...tsPlugin.configs.recommended.rules,
 
-            // React rules
-            ...reactPlugin.configs.recommended.rules,
+      // React rules
+      ...reactPlugin.configs.recommended.rules,
 
-            // React Hooks rules
-            ...reactHooks.configs.recommended.rules,
+      // React Hooks rules
+      ...reactHooks.configs.recommended.rules,
 
-            // Prettier rules
-            ...prettier.rules,
+      // Prettier rules
+      ...prettier.rules,
 
-            // Project-specific
-            "react/react-in-jsx-scope": "off",
-            "@typescript-eslint/no-unused-vars": [
-                "warn",
-                { argsIgnorePattern: "^_" }
-            ]
-        }
-    }
+      // Project-specific
+      "react/react-in-jsx-scope": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_" },
+      ],
+    },
+  },
 ];
